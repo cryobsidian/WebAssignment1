@@ -1,0 +1,1468 @@
+/* =========================================================================
+   NearU stylesheet
+   Shared by index.html, stays.html and enquiry.html.
+
+   Layout model: desktop-first. Base rules target wide screens.
+   Media queries use three max-width breakpoints:
+     ≤1150px  small desktop / landscape tablet
+     ≤800px   portrait tablet
+     ≤600px   phone
+   ========================================================================= */
+
+/* ---------- Design tokens ----------
+   Shared palette and font stack. --green is the primary colour,
+   --orange the accent, --muted secondary text, and --line borders.
+   Some component colours are defined directly in their rules below. */
+:root {
+  --ink: #252a27;
+  --muted: #68716b;
+  --paper: #f7f8f5;
+  --white: #fff;
+  --green: #42644f;
+  --green-light: #edf2ec;
+  --orange: #bd765c;
+  --line: #e1e6df;
+  --sans: Arial,Helvetica,sans-serif;
+}
+
+/* ---------- Base reset ----------
+   border-box makes padding and borders count toward an element's width.
+   smooth scrolling animates in-page anchor links such as #how-it-works.
+   Form controls do not inherit the page font by default, so it is forced. */
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.55;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+/* =========================================================================
+   Header and navigation (all pages)
+   Side padding is max((100vw - 1080px) / 2, 5vw): on wide screens content
+   lines up with the centred 1080px column, on narrow screens it keeps a
+   5vw gutter. margin-left: auto on .main-nav pushes the links to the right.
+   ========================================================================= */
+.site-header {
+  height: 68px;
+  padding: 0 max(calc((100vw - 1080px)/2),5vw);
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  background: var(--white);
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -.5px;
+  flex-shrink: 0;
+}
+
+/* Shared image logo; footer and phone sizes are defined in their sections. */
+.brand .brand-mark {
+  display: block;
+  place-items: center;
+  color: white;
+  font-size: 17px;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  object-fit: contain;
+  margin-right: 4px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+.brand-country {
+  align-self: flex-start;
+  margin: 0 0 0 4px;
+  color: var(--green);
+  font-size: 9px;
+}
+.main-nav {
+  display: flex;
+  gap: 25px;
+  margin-left: auto;
+}
+.main-nav a {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* The current page link has class="active" in the HTML. */
+.main-nav a:hover,
+.main-nav a.active {
+  color: var(--green);
+  font-weight: 700;
+}
+.nav-cta {
+  padding: 9px 13px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  font-size: 12px;
+}
+.nav-cta span {
+  color: var(--green);
+  margin-left: 8px;
+}
+
+/* Hamburger button: hidden on desktop, shown at ≤600px (see phone media query).
+   Its click behaviour lives in app.js. */
+.menu-toggle {
+  display: none;
+  border: 0;
+  background: none;
+  font-size: 21px;
+}
+
+/* ---------- Eyebrow labels ----------
+   Small uppercase green label above headings, optionally with an orange dot. */
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 1.1px;
+  font-weight: 700;
+  color: var(--green);
+  margin: 0 0 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--orange);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* =========================================================================
+   Home page – hero
+   Two equal columns (copy | image) on desktop; stacks vertically at ≤600px.
+   The h1 size uses clamp() to scale smoothly with the viewport, but the
+   ≤800px and ≤600px media queries replace it with fixed sizes.
+   ========================================================================= */
+.hero {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 55px 0 36px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+}
+.hero-copy {
+  padding: 0 0 0 4px;
+}
+.hero h1,
+.listing-intro h1,
+.enquiry-aside h1 {
+  font-weight: 700;
+  font-size: clamp(38px,4.7vw,58px);
+  line-height: 1.12;
+  letter-spacing: -1.7px;
+  margin: 0 0 17px;
+}
+
+/* <em> inside headings is used as a green highlight, not italics. */
+.hero h1 em,
+.listing-intro h1 em,
+.enquiry-aside h1 em,
+.section-heading h2 em,
+.home-cta h2 em {
+  font-style: normal;
+  color: var(--green);
+}
+.hero-text {
+  color: var(--muted);
+  max-width: 410px;
+  font-size: 14px;
+  line-height: 1.75;
+  margin: 0 0 23px;
+}
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ---------- Buttons ----------
+   .button-dark: green, primary action. .button-light: white, for use on
+   tinted backgrounds (defined with the home CTA below). */
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  border: 0;
+  border-radius: 5px;
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.button-dark {
+  background: var(--green);
+  color: white;
+}
+.button-dark:hover {
+  background: #34523f;
+}
+.button span {
+  font-size: 16px;
+}
+.text-link {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--green);
+}
+.text-link span {
+  margin-left: 6px;
+}
+
+/* Hero image: fixed height with object-fit: cover, so the photo is cropped
+   to fill the box. .image-tag is the card floating over the bottom-left corner. */
+.hero-visual {
+  height: 360px;
+  position: relative;
+}
+.hero-visual>img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 7px;
+}
+.image-tag {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 9px 12px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.tag-icon {
+  font-size: 18px;
+  color: var(--green);
+}
+.image-tag b,
+.image-tag small {
+  display: block;
+}
+.image-tag b {
+  font-size: 11px;
+}
+.image-tag small {
+  font-size: 9px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+/* =========================================================================
+   Home page – quick search bar
+   A row on desktop; a two-column grid at ≤600px.
+   Note: the selects are decorative. "See stays" is a plain link and the
+   chosen budget is not passed to stays.html.
+   ========================================================================= */
+.quick-search {
+  max-width: 950px;
+  margin: 0 auto;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 15px 18px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.search-intro {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 185px;
+}
+.search-icon {
+  font-size: 22px;
+  color: var(--green);
+}
+.search-intro b,
+.search-intro small {
+  display: block;
+}
+.search-intro b {
+  font-size: 12px;
+}
+.search-intro small {
+  font-size: 10px;
+  color: var(--muted);
+}
+.search-field {
+  border-left: 1px solid var(--line);
+  padding-left: 18px;
+  display: grid;
+  gap: 3px;
+  flex: 1;
+}
+.search-field label {
+  font-size: 9px;
+  color: var(--muted);
+}
+.search-field select {
+  border: 0;
+  padding: 0;
+  background: white;
+  font-size: 11px;
+  color: var(--ink);
+  outline: 0;
+}
+.search-submit {
+  background: var(--green);
+  color: white;
+  border-radius: 5px;
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.search-submit span {
+  margin-left: 12px;
+}
+
+/* =========================================================================
+   Home page – generic section and "how it works" steps
+   .steps-grid is three equal columns on desktop and one column at ≤600px,
+   where each card switches to an icon | text grid.
+   ========================================================================= */
+.section {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 72px 0 55px;
+}
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 24px;
+}
+.section-heading .eyebrow {
+  margin-bottom: 8px;
+}
+.section-heading h2,
+.home-cta h2 {
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1.25;
+  margin: 0;
+}
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 14px;
+}
+.step-card {
+  background: white;
+  border: 1px solid var(--line);
+  padding: 18px 20px 20px;
+  border-radius: 6px;
+  min-height: 176px;
+  position: relative;
+}
+.step-number {
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 700;
+}
+.step-illustration {
+  width: 34px;
+  height: 34px;
+  margin: 12px 0;
+  background: var(--green-light);
+  color: var(--green);
+  border-radius: 5px;
+  display: grid;
+  place-items: center;
+  font-size: 19px;
+}
+.step-card h3 {
+  font-size: 13px;
+  margin: 0 0 5px;
+}
+.step-card p {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ---------- Home page – audio tip ----------
+   Row layout with a 245px player; at ≤600px the player wraps onto its own
+   full-width line. */
+.audio-tip {
+  max-width: 1080px;
+  margin: 0 auto 55px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  padding: 16px 18px;
+  gap: 15px;
+}
+.audio-badge {
+  width: 35px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+  background: var(--green-light);
+  color: var(--green);
+  font-size: 17px;
+}
+.audio-copy {
+  flex: 1;
+}
+.audio-copy .eyebrow {
+  margin: 0 0 3px;
+  font-size: 9px;
+}
+.audio-copy h3 {
+  margin: 0;
+  font-size: 13px;
+}
+.audio-copy p:last-child {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 10px;
+}
+.audio-tip audio {
+  width: 245px;
+  height: 36px;
+}
+
+/* ---------- Home page – closing call to action ----------
+   Heading and button side by side on desktop; stacked at ≤600px. */
+.home-cta {
+  max-width: 1080px;
+  margin: 0 auto 55px;
+  background: var(--green-light);
+  border-radius: 6px;
+  min-height: 175px;
+  padding: 30px 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.home-cta .eyebrow {
+  font-size: 9px;
+  margin-bottom: 9px;
+}
+.home-cta h2 {
+  font-size: 28px;
+}
+.button-light {
+  background: white;
+  color: var(--green);
+  border: 1px solid #dce5d9;
+}
+
+/* =========================================================================
+   Footer (all pages)
+   Wraps onto multiple lines; the copyright <small> is forced onto its own
+   line with width: 100%.
+   ========================================================================= */
+.site-footer {
+  border-top: 1px solid var(--line);
+  background: white;
+  padding: 20px max(calc((100vw - 1080px)/2),5vw);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.site-footer .brand {
+  font-size: 15px;
+}
+.site-footer .brand .brand-mark {
+  width: 38px;
+  height: 38px;
+  margin-right: 2px;
+  font-size: 15px;
+}
+.site-footer p {
+  color: var(--muted);
+  font-size: 10px;
+  margin: 0;
+}
+.site-footer>div {
+  display: flex;
+  gap: 18px;
+  margin-left: auto;
+}
+.site-footer>div a,
+.site-footer small {
+  font-size: 10px;
+  color: var(--muted);
+}
+.site-footer small {
+  width: 100%;
+  margin-top: 2px;
+}
+
+/* =========================================================================
+   Stays page (stays.html)
+   ========================================================================= */
+.listing-page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 50px 0 65px;
+}
+.listing-intro {
+  text-align: center;
+  max-width: 620px;
+  margin: 0 auto 28px;
+}
+.listing-intro .eyebrow {
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.listing-intro h1 {
+  font-size: 45px;
+  margin-bottom: 12px;
+}
+.listing-intro>p:last-child {
+  color: var(--muted);
+  max-width: 520px;
+  margin: 0 auto;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* ---------- Filter toolbar ----------
+   Search box, type chips and budget slider in one row. Wraps at ≤800px;
+   each control gets its own full-width row at ≤600px. */
+.listing-toolbar {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.listing-search {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 8px 9px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 210px;
+}
+.listing-search span {
+  font-size: 17px;
+  color: var(--green);
+}
+.listing-search input {
+  border: 0;
+  outline: 0;
+  width: 100%;
+  font-size: 10px;
+}
+.filter-group {
+  display: flex;
+  gap: 6px;
+}
+
+/* Type filter chips. app.js moves the .selected class; selected and hover look the same. */
+.filter-chip {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 7px 9px;
+  font-size: 10px;
+  color: var(--muted);
+  cursor: pointer;
+}
+.filter-chip.selected,
+.filter-chip:hover {
+  background: var(--green-light);
+  border-color: #dce5d9;
+  color: var(--green);
+  font-weight: 600;
+}
+
+/* Budget slider: label and value on top, slider spanning both columns below.
+   accent-color tints the native range input with the brand green. */
+.budget-filter {
+  margin-left: auto;
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 3px 8px;
+  align-items: center;
+  font-size: 9px;
+  color: var(--muted);
+}
+.budget-filter b {
+  color: var(--ink);
+  font-size: 10px;
+}
+.budget-filter input {
+  grid-column: 1/3;
+  width: 145px;
+  accent-color: var(--green);
+}
+
+/* Result count line ("3 stays to explore"); the number is written by app.js. */
+.results-line {
+  font-size: 11px;
+  color: #4f544c;
+  margin: 19px 0 12px;
+}
+.results-campus {
+  color: var(--muted);
+}
+
+/* ---------- Stay cards ----------
+   3 columns on desktop → 2 at ≤800px → 1 at ≤600px. minmax(0, 1fr) stops
+   long titles from stretching a column. Filtered-out cards are hidden with
+   the `hidden` attribute, which works because .stay-card sets no display. */
+.stay-grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 16px;
+}
+
+/* .stay-image is the positioning context: the label, save button and
+   thumbnails are absolutely positioned on top of the photo. */
+.stay-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.stay-image {
+  height: 190px;
+  position: relative;
+}
+.stay-image>img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.stay-thumbs {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  gap: 4px;
+}
+.stay-thumbs img {
+  width: 40px;
+  height: 32px;
+  object-fit: cover;
+  border: 2px solid white;
+  border-radius: 3px;
+}
+.stay-label {
+  position: absolute;
+  left: 11px;
+  top: 11px;
+  background: var(--green);
+  color: white;
+  font-size: 8px;
+  letter-spacing: .5px;
+  border-radius: 3px;
+  padding: 5px 7px;
+}
+.label-terracotta {
+  background: var(--orange);
+}
+
+/* Save button. app.js sets aria-pressed="true" when saved, and the rule below
+   uses that attribute as its style hook, so the visual and accessible states
+   always match. */
+.save-button {
+  position: absolute;
+  right: 11px;
+  top: 10px;
+  border: 1px solid var(--line);
+  background: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  font-size: 17px;
+  color: #3d473d;
+  cursor: pointer;
+}
+.save-button[aria-pressed=true] {
+  background: var(--orange);
+  color: white;
+}
+.stay-details {
+  padding: 13px 14px 12px;
+}
+.stay-title-row {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 7px;
+}
+.stay-title-row h2 {
+  font-size: 13px;
+  line-height: 1.35;
+  margin: 0;
+  font-weight: 700;
+}
+.distance {
+  white-space: nowrap;
+  background: #f2f4f0;
+  border-radius: 3px;
+  padding: 4px 6px;
+  font-size: 8px;
+  color: var(--muted);
+}
+.stay-location {
+  margin: 6px 0 10px;
+  color: var(--muted);
+  font-size: 9px;
+}
+.stay-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  min-height: 22px;
+}
+.stay-tags span {
+  background: #f3f5f2;
+  border-radius: 3px;
+  padding: 4px 6px;
+  color: #666d64;
+  font-size: 8px;
+}
+.stay-price {
+  border-top: 1px solid var(--line);
+  margin-top: 10px;
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+.stay-price small,
+.stay-price b {
+  display: block;
+}
+.stay-price small {
+  font-size: 8px;
+  color: var(--muted);
+}
+.stay-price b {
+  font-size: 14px;
+  margin-top: 2px;
+}
+
+/* Availability badges: .unavailable (fully booked) and .estimate (indicative price). */
+.availability {
+  font-size: 8px;
+  border-radius: 3px;
+  padding: 5px 6px;
+}
+.unavailable {
+  color: #8d4d39;
+  background: #f7eee9;
+}
+.estimate {
+  color: #42644f;
+  background: var(--green-light);
+}
+.card-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  margin-top: 9px;
+  padding-top: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--green);
+}
+.card-link span {
+  font-size: 14px;
+}
+
+/* ---------- Price note and sources ----------
+   Note: text here is only 8–9px, which is hard to read and below common
+   accessibility recommendations. */
+.price-note {
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  background: var(--green-light);
+  border-radius: 5px;
+  padding: 13px 15px;
+  margin: 20px 0 15px;
+}
+.price-note>span {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: white;
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 700;
+}
+.price-note p {
+  font-size: 9px;
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 0;
+}
+.price-note b {
+  color: var(--ink);
+  margin-right: 4px;
+}
+.source-line {
+  font-size: 9px;
+  color: #727a73;
+}
+.source-line p {
+  margin: 0;
+}
+.source-line a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Empty state: starts with the `hidden` attribute; app.js shows it when no card matches. */
+.empty-state {
+  text-align: center;
+  padding: 45px 20px;
+}
+.empty-state>span {
+  font-size: 25px;
+  color: var(--green);
+}
+.empty-state h2 {
+  font-size: 18px;
+}
+.empty-state p {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* =========================================================================
+   Enquiry page (enquiry.html)
+   Two columns (intro .9fr | form 1.1fr) on desktop; a single column at
+   ≤600px with the intro above the form.
+   ========================================================================= */
+.enquiry-page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 50px 0 65px;
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 55px;
+  align-items: start;
+}
+.enquiry-aside h1 {
+  font-size: 43px;
+  letter-spacing: -1.3px;
+  margin-bottom: 14px;
+}
+.enquiry-aside>p:not(.eyebrow) {
+  font-size: 12px;
+  line-height: 1.75;
+  color: var(--muted);
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+.aside-image {
+  height: 235px;
+  position: relative;
+}
+.aside-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+.image-caption {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 7px 9px;
+  font-size: 9px;
+  font-weight: 600;
+}
+.image-caption span {
+  color: var(--orange);
+  margin-right: 5px;
+}
+.contact-reminder {
+  display: flex;
+  gap: 9px;
+  align-items: start;
+  margin-top: 15px;
+}
+.contact-reminder>span {
+  color: var(--green);
+  font-size: 15px;
+}
+.contact-reminder p {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 0;
+}
+.contact-reminder b {
+  color: var(--ink);
+}
+
+/* ---------- Form panel ---------- */
+.form-panel {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 25px 27px;
+}
+.form-heading {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 15px;
+  margin-bottom: 18px;
+}
+.form-step {
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--green);
+  font-weight: 700;
+}
+.form-heading h2 {
+  font-size: 23px;
+  margin: 6px 0 3px;
+}
+.form-heading p {
+  color: var(--muted);
+  font-size: 10px;
+  margin: 0;
+}
+.required-star,
+.form-panel label>span {
+  color: var(--orange);
+}
+
+/* Required text, date and select fields wrap their control and error in a label.
+   The consent error is outside its label; the optional message has no error.
+   .form-row uses two columns, switching to one at ≤600px. */
+.form-panel form>label,
+.form-row>label {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  margin-bottom: 13px;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Shared control styling. Note: outline: none removes the browser focus ring,
+   so focus is shown only by the 1px green border, which keyboard users may miss. */
+.form-panel input:not([type=checkbox]),
+.form-panel select,
+.form-panel textarea {
+  display: block;
+  margin-top: 6px;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #fff;
+  padding: 10px;
+  color: var(--ink);
+  font-size: 10px;
+  outline: none;
+}
+.form-panel textarea {
+  resize: vertical;
+  min-height: 75px;
+}
+.form-panel input:focus,
+.form-panel select:focus,
+.form-panel textarea:focus {
+  border-color: var(--green);
+}
+
+/* Validation state: app.js adds .invalid (red border) and fills .field-error. */
+.form-panel input.invalid,
+.form-panel select.invalid {
+  border-color: #c45442;
+}
+.field-error {
+  display: block;
+  min-height: 0;
+  font-size: 9px;
+  font-weight: 400;
+  color: #b84d3d;
+  margin-top: 3px;
+}
+.optional-label {
+  font-size: 8px;
+  color: #858d86;
+  margin-left: 5px;
+  letter-spacing: .5px;
+}
+.character-count {
+  display: block;
+  text-align: right;
+  color: #858d86;
+  font-size: 8px;
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+/* !important is needed to override the display/size/weight set by
+   ".form-panel form>label" above, which has higher specificity. */
+.consent {
+  display: flex !important;
+  gap: 8px;
+  align-items: start;
+  font-size: 9px !important;
+  font-weight: 400 !important;
+  line-height: 1.5;
+}
+.consent input {
+  margin: 2px 0 0;
+  accent-color: var(--green);
+}
+.consent b {
+  color: var(--orange);
+}
+.submit-button {
+  width: 100%;
+  justify-content: center;
+  margin: 1px 0 8px;
+}
+.privacy-note {
+  text-align: center;
+  font-size: 8px;
+  color: #858d86;
+  margin: 0;
+}
+
+/* Success message. Starts with the `hidden` attribute and is revealed by
+   app.js after a valid submit. */
+.form-success {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 11px;
+  background: var(--green-light);
+  border-radius: 4px;
+  color: var(--green);
+}
+.form-success>span {
+  font-size: 17px;
+}
+.form-success b {
+  font-size: 10px;
+}
+.form-success p {
+  font-size: 9px;
+  margin: 3px 0 0;
+  color: var(--muted);
+}
+/* Fix: without this, display: flex above overrides the `hidden` attribute and
+   the success message is visible before the form is submitted. */
+.form-success[hidden] {
+  display: none;
+}
+
+/* =========================================================================
+   Responsive: ≤1150px (small desktop / landscape tablet)
+   The 1080px column plus margins no longer fits, so main blocks switch to
+   a 5vw side margin.
+   ========================================================================= */
+@media (max-width: 1150px) {
+  .hero,
+  .section,
+  .audio-tip,
+  .home-cta,
+  .listing-page,
+  .enquiry-page {
+    margin-left: 5vw;
+    margin-right: 5vw;
+  }
+  .site-header {
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
+  .hero {
+    gap: 35px;
+  }
+}
+
+/* =========================================================================
+   Responsive: ≤800px (portrait tablet)
+   Tighter spacing and smaller headings; the toolbar wraps and the stay grid
+   drops to two columns.
+   ========================================================================= */
+@media (max-width: 800px) {
+  .site-header {
+    gap: 14px;
+  }
+  .main-nav {
+    gap: 16px;
+  }
+  .hero {
+    padding: 38px 0 25px;
+    gap: 24px;
+  }
+  .hero-visual {
+    height: 310px;
+  }
+  .hero h1 {
+    font-size: 46px;
+  }
+  .quick-search {
+    margin: 0 5vw;
+    gap: 12px;
+    padding: 14px;
+  }
+  .search-intro {
+    min-width: 150px;
+  }
+  .search-field {
+    padding-left: 12px;
+  }
+  .section {
+    padding: 58px 0 45px;
+  }
+  .listing-toolbar {
+    flex-wrap: wrap;
+  }
+  .listing-search {
+    flex: 1;
+  }
+  .budget-filter {
+    margin-left: 0;
+  }
+  .stay-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+  .enquiry-page {
+    gap: 30px;
+  }
+  .enquiry-aside h1 {
+    font-size: 37px;
+  }
+  .form-panel {
+    padding: 22px 19px;
+  }
+}
+
+/* =========================================================================
+   Responsive: ≤600px (phone)
+   Hamburger menu replaces the desktop nav; most multi-column layouts become
+   a single column.
+   ========================================================================= */
+@media (max-width: 600px) {
+  /* Header: show the hamburger, hide the desktop CTA. */
+  .site-header {
+    padding: 0 5vw;
+    height: 62px;
+  }
+  .brand {
+    font-size: 16px;
+  }
+  /* Footer logos retain 38px through the more specific footer selector. */
+  .brand .brand-mark {
+    width: 40px;
+    height: 40px;
+  }
+  .menu-toggle {
+    display: block;
+    margin-left: auto;
+  }
+  .nav-cta {
+    display: none;
+  }
+
+  /* The nav becomes a dropdown under the header. Hidden by default;
+       app.js adds .open to show it as a vertical list. z-index keeps it above
+       page content. */
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: 61px;
+    left: 0;
+    right: 0;
+    padding: 13px 5vw 16px;
+    background: white;
+    border-bottom: 1px solid var(--line);
+    flex-direction: column;
+    gap: 13px;
+    z-index: 4;
+  }
+  .main-nav.open {
+    display: flex;
+  }
+
+  /* Home: hero stacks vertically. */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 34px 0 18px;
+    gap: 22px;
+    margin: 0 5vw;
+  }
+  .hero-copy {
+    padding: 0;
+  }
+  .hero h1 {
+    font-size: 39px;
+    letter-spacing: -1px;
+  }
+  .hero-text {
+    font-size: 12px;
+  }
+  .hero-visual {
+    height: 250px;
+  }
+  .image-tag {
+    left: 10px;
+    bottom: 10px;
+    padding: 7px 9px;
+  }
+
+  /* Quick search: two-column grid, title and button span both columns. */
+  .quick-search {
+    margin: 0 5vw;
+    padding: 13px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .search-intro {
+    grid-column: 1/3;
+  }
+  .search-field {
+    padding-left: 0;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding-top: 8px;
+  }
+  .search-submit {
+    text-align: center;
+    grid-column: 1/3;
+  }
+  .section {
+    margin: 0 5vw;
+    padding: 50px 0 37px;
+  }
+  .section-heading {
+    align-items: start;
+    gap: 12px;
+  }
+  .section-heading h2,
+  .home-cta h2 {
+    font-size: 25px;
+  }
+  .section-heading>.text-link {
+    white-space: nowrap;
+    font-size: 9px;
+    margin-top: 17px;
+  }
+
+  /* Steps: one column; inside each card the icon sits left of the text. */
+  .steps-grid {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+  .step-card {
+    min-height: 0;
+    padding: 14px;
+    display: grid;
+    grid-template-columns: 38px 1fr;
+    column-gap: 11px;
+    align-items: center;
+  }
+  .step-number {
+    position: absolute;
+    right: 13px;
+    top: 12px;
+  }
+  .step-illustration {
+    grid-row: 1/3;
+    margin: 0;
+  }
+  .step-card h3 {
+    margin: 0 0 2px;
+  }
+  .step-card p {
+    grid-column: 2;
+  }
+
+  /* Audio tip: the player moves to its own full-width row. */
+  .audio-tip {
+    margin: 0 5vw 38px;
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    padding: 13px;
+    gap: 9px;
+  }
+  .audio-tip audio {
+    grid-column: 1/3;
+    width: 100%;
+    margin-top: 2px;
+  }
+  .audio-copy .eyebrow {
+    margin-bottom: 2px;
+  }
+  .home-cta {
+    margin: 0 5vw 40px;
+    padding: 22px;
+    min-height: 160px;
+    display: block;
+  }
+  .home-cta h2 {
+    font-size: 24px;
+  }
+  .home-cta .button {
+    margin-top: 15px;
+  }
+
+  /* Footer: tagline and copyright each take a full line. */
+  .site-footer {
+    padding: 17px 5vw;
+    gap: 8px;
+  }
+  .site-footer p {
+    width: 100%;
+    order: 2;
+  }
+  .site-footer>div {
+    margin-left: auto;
+  }
+  .site-footer small {
+    order: 3;
+  }
+
+  /* Stays page: every toolbar control is full width; one card per row. */
+  .listing-page {
+    margin: 0 5vw;
+    padding: 38px 0 45px;
+  }
+  .listing-intro {
+    margin-bottom: 22px;
+  }
+  .listing-intro h1 {
+    font-size: 35px;
+    letter-spacing: -1px;
+  }
+  .listing-intro>p:last-child {
+    font-size: 10px;
+  }
+  .listing-toolbar {
+    padding: 10px;
+    gap: 9px;
+  }
+  .listing-search {
+    width: 100%;
+    flex-basis: 100%;
+  }
+  .filter-group {
+    width: 100%;
+    gap: 5px;
+  }
+  .filter-chip {
+    padding: 7px 8px;
+    font-size: 9px;
+  }
+  .budget-filter {
+    width: 100%;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+  }
+  .budget-filter input {
+    width: 100%;
+  }
+  .results-line {
+    font-size: 9px;
+  }
+  .stay-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .stay-image {
+    height: 210px;
+  }
+  .stay-details {
+    padding: 13px;
+  }
+  .price-note {
+    padding: 11px;
+  }
+
+  /* Enquiry page: single column, and .form-row fields stack too. */
+  .enquiry-page {
+    display: block;
+    margin: 0 5vw;
+    padding: 37px 0 45px;
+  }
+  .enquiry-aside h1 {
+    font-size: 36px;
+  }
+  .enquiry-aside>p:not(.eyebrow) {
+    font-size: 10px;
+  }
+  .aside-image {
+    height: 200px;
+    margin-bottom: 12px;
+  }
+  .contact-reminder {
+    margin-bottom: 22px;
+  }
+  .form-panel {
+    padding: 18px 15px;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .form-panel form>label,
+  .form-row>label {
+    margin-bottom: 11px;
+  }
+  .form-heading h2 {
+    font-size: 21px;
+  }
+}

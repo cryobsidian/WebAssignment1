@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Send a student accommodation enquiry to help plan your move to Malaysia.">
+  <title>Enquire | NearU</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="media/nearu-symbol.png">
+</head>
+<body>
+  <!-- Shared header (see index.html for notes). -->
+  <header class="site-header">
+    <a class="brand" href="index.html"><img class="brand-mark" src="media/nearu-symbol.png" alt="" width="44" height="44" decoding="async">NearU<span class="brand-country">MY</span></a>
+    <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="stays.html">Explore stays</a>
+      <a class="active" href="enquiry.html">Enquire</a>
+    </nav>
+    <a class="nav-cta" href="stays.html">Browse stays <span>↗</span></a>
+  </header>
+
+  <!-- Two columns on desktop (intro | form); at ≤600px the intro sits above the form. -->
+  <main class="enquiry-page">
+    <section class="enquiry-aside">
+      <p class="eyebrow"><span class="eyebrow-dot"></span> LET’S GET YOU SETTLED</p>
+      <h1>One small step<br>toward <em>your new home.</em></h1>
+      <p>Tell us what you’re looking for. This sample form helps you prepare an enquiry; it does not place a booking or contact a provider.</p>
+      <div class="aside-image">
+        <img src="media/content-photo-8.jpg" alt="Warm, welcoming apartment interior">
+        <div class="image-caption"><span>✳</span> Your Malaysia chapter starts here</div>
+      </div>
+      <div class="contact-reminder">
+        <span>↗</span>
+        <p><b>Need current rates?</b><br>Contact the accommodation provider directly to confirm availability and total move-in costs.</p>
+      </div>
+    </section>
+
+    <section class="form-panel">
+      <div class="form-heading">
+        <span class="form-step">ENQUIRY FORM · 01</span>
+        <h2>Share your plans</h2>
+        <p>Fields marked <span class="required-star">*</span> are required.</p>
+      </div>
+
+      <!-- Enquiry form. `novalidate` turns off the browser's validation bubbles; app.js validates
+           instead and writes messages into each field's <small class="field-error">.
+           Each <label> wraps its control and its error element, and app.js finds the error via
+           field.closest('label'), so keep that nesting when editing.
+           Submitting calls preventDefault: nothing is sent to a server. -->
+      <form id="enquiry-form" novalidate>
+        <!-- Name + email (two columns on desktop, one at ≤600px).
+             Rules: name needs at least 2 characters; email must look like x@y.z. -->
+        <div class="form-row">
+          <label for="full-name">Your name <span>*</span>
+            <input id="full-name" name="name" type="text" autocomplete="name" placeholder="e.g. Alex Tan" required minlength="2">
+            <small class="field-error"></small>
+          </label>
+          <label for="email">Email address <span>*</span>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            <small class="field-error"></small>
+          </label>
+        </div>
+
+        <!-- Can be pre-selected from the URL (?stay=…), see app.js 3a.
+             The empty-value first option triggers the "required" error. -->
+        <label for="stay-choice">Stay you’re interested in <span>*</span>
+          <select id="stay-choice" name="stay" required>
+            <option value="">Choose a stay</option>
+            <option>U Residence</option>
+            <option>YOIHO Dorsett Waterfront</option>
+            <option>Balcony Studio · Sunway Resort</option>
+            <option>I’m still exploring</option>
+          </select>
+          <small class="field-error"></small>
+        </label>
+
+        <!-- Move-in date + budget. app.js sets the date's min to today's local date. -->
+        <div class="form-row">
+          <label for="move-date">Expected move-in <span>*</span>
+            <input id="move-date" name="moveDate" type="date" required>
+            <small class="field-error"></small>
+          </label>
+          <label for="monthly-budget">Monthly budget (RM) <span>*</span>
+            <select id="monthly-budget" name="budget" required>
+              <option value="">Select a range</option>
+              <option>Under RM 2,000</option>
+              <option>RM 2,000–2,999</option>
+              <option>RM 3,000–4,000</option>
+              <option>Above RM 4,000</option>
+              <option>Flexible</option>
+            </select>
+            <small class="field-error"></small>
+          </label>
+        </div>
+
+        <!-- Optional message: the browser enforces maxlength="400"; app.js updates #char-count live. -->
+        <label for="message">Anything else we should know? <small class="optional-label">OPTIONAL</small>
+          <textarea id="message" name="message" rows="4" maxlength="400" placeholder="Room type, questions, or preferences…"></textarea>
+          <small class="character-count"><span id="char-count">0</span>/400</small>
+        </label>
+
+        <!-- Consent must be checked to submit. Its error goes in #consent-error, which sits outside
+             the label, so app.js handles it separately from the other fields. -->
+        <label class="consent">
+          <input type="checkbox" id="consent" required>
+          <span>I understand this is an enquiry only and does not confirm a booking. <b>*</b></span>
+        </label>
+        <small class="field-error" id="consent-error"></small>
+
+        <button class="button button-dark submit-button" type="submit">Review my enquiry <span>→</span></button>
+        <p class="privacy-note">Your details stay in this demo page and are not sent to a server.</p>
+
+        <!-- Success message: hidden until a valid submit (CSS .form-success[hidden] keeps it hidden).
+             role="status" makes screen readers announce it when it appears. -->
+        <div class="form-success" id="form-success" role="status" hidden>
+          <span>✓</span>
+          <div>
+            <b>Enquiry details look good.</b>
+            <p>This demo does not send your information. Please contact the provider to confirm current details.</p>
+          </div>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- Shared footer. -->
+  <footer class="site-footer">
+    <a class="brand" href="index.html"><img class="brand-mark" src="media/nearu-symbol.png" alt="" width="44" height="44" decoding="async">NearU<span class="brand-country">MY</span></a>
+    <p>Student rentals, made easier to compare.</p>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="stays.html">Explore</a>
+    </div>
+    <small>© 2026 NearU · Images: Unsplash · Demo enquiry only</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

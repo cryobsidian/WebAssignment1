@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Browse and filter student accommodation near Taylor's Lakeside Campus.">
+  <title>Explore stays | NearU</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="media/nearu-symbol.png">
+</head>
+<body>
+  <!-- Shared header (see index.html for notes). -->
+  <header class="site-header">
+    <a class="brand" href="index.html"><img class="brand-mark" src="media/nearu-symbol.png" alt="" width="44" height="44" decoding="async">NearU<span class="brand-country">MY</span></a>
+    <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a class="active" href="stays.html">Explore stays</a>
+      <a href="enquiry.html">Enquire</a>
+    </nav>
+    <a class="nav-cta" href="enquiry.html">Ask a question <span>↗</span></a>
+  </header>
+
+  <main class="listing-page">
+    <section class="listing-intro">
+      <p class="eyebrow"><span class="eyebrow-dot"></span> YOUR NEXT PLACE</p>
+      <h1>Find a stay that<br><em>fits your student life.</em></h1>
+      <p>Compare location, room type and published rent. Always confirm current availability and fees with the provider.</p>
+    </section>
+
+    <!-- Filter toolbar, driven by app.js. Results update as you type or drag; there is no submit button.
+         - #stay-search:  keyword search against each card's data-search
+         - .filter-chip:  filter by data-filter (all / on / off)
+         - #budget-range: max monthly rent, 1500–5000 in steps of 100; updates #budget-label -->
+    <section class="listing-toolbar">
+      <label class="listing-search">
+        <span>⌕</span>
+        <input id="stay-search" type="search" placeholder="Search a stay or area" aria-label="Search stays">
+      </label>
+      <div class="filter-group" role="group" aria-label="Filter by accommodation type">
+        <button class="filter-chip selected" data-filter="all">All stays</button>
+        <button class="filter-chip" data-filter="on">On campus</button>
+        <button class="filter-chip" data-filter="off">Off campus</button>
+      </div>
+      <label class="budget-filter">
+        Max rent <b id="budget-label">RM 5,000</b>
+        <input type="range" id="budget-range" min="1500" max="5000" step="100" value="5000" aria-label="Maximum monthly rent">
+      </label>
+    </section>
+
+    <!-- app.js rewrites #result-count on load ("1 stay" / "N stays"). -->
+    <p class="results-line"><span id="result-count">3 stays</span> to explore <span class="results-campus">· near Taylor’s Lakeside Campus</span></p>
+
+    <!-- Stay cards. The data-* attributes are what app.js filters on, so every new card needs:
+           data-type="on|off"  on-campus / off-campus
+           data-price          monthly rent as a number; keep it in sync with the price shown on the card
+           data-search         lowercase keywords
+         Each card has a main photo, two thumbnails (display only), a type label and a save button (♡/♥).
+         "View details" links pass ?stay=… so enquiry.html can pre-select that stay. -->
+    <section class="stay-grid" id="stay-grid">
+      <article class="stay-card" data-type="on" data-price="1700" data-search="u residence taylors lakeside campus on campus twin single">
+        <div class="stay-image">
+          <img src="media/content-photo-1.jpg" alt="U Residence twin bedroom">
+          <div class="stay-thumbs" aria-label="More U Residence photos">
+            <img src="media/content-photo-2.jpg" alt="U Residence single room">
+            <img src="media/content-photo-3.jpg" alt="U Residence en-suite room">
+          </div>
+          <span class="stay-label">ON CAMPUS</span>
+          <button class="save-button" aria-label="Save U Residence" aria-pressed="false">♡</button>
+        </div>
+        <div class="stay-details">
+          <div class="stay-title-row">
+            <h2>U Residence</h2>
+            <span class="distance">On campus</span>
+          </div>
+          <p class="stay-location">⌖ Taylor’s Lakeside Campus</p>
+          <div class="stay-tags">
+            <span>Single & twin rooms</span>
+            <span>Wi-Fi · security</span>
+          </div>
+          <div class="stay-price">
+            <div>
+              <small>From / month</small>
+              <b>RM 1,700</b>
+            </div>
+            <span class="availability unavailable">Fully booked · waitlist</span>
+          </div>
+          <a class="card-link" href="enquiry.html?stay=U%20Residence">View details <span>→</span></a>
+        </div>
+      </article>
+
+      <article class="stay-card" data-type="off" data-price="2000" data-search="yoiho dorsett waterfront subang studio off campus shuttle kitchenette">
+        <div class="stay-image">
+          <img src="media/content-photo-4.jpg" alt="YOIHO furnished room">
+          <div class="stay-thumbs" aria-label="More YOIHO Dorsett Waterfront photos">
+            <img src="media/content-photo-5.jpg" alt="YOIHO shared kitchen and dining space">
+            <img src="media/content-photo-6.jpg" alt="YOIHO twin room">
+          </div>
+          <span class="stay-label label-terracotta">OFF CAMPUS</span>
+          <button class="save-button" aria-label="Save YOIHO Dorsett Waterfront" aria-pressed="false">♡</button>
+        </div>
+        <div class="stay-details">
+          <div class="stay-title-row">
+            <h2>YOIHO Dorsett Waterfront</h2>
+            <span class="distance">6.2 km away</span>
+          </div>
+          <p class="stay-location">⌖ Subang Jaya · shuttle available</p>
+          <div class="stay-tags">
+            <span>Studio options</span>
+            <span>Wi-Fi · 24h security</span>
+          </div>
+          <div class="stay-price">
+            <div>
+              <small>Listing examples / month</small>
+              <b>From RM 2,000</b>
+            </div>
+            <span class="availability estimate">Market listings</span>
+          </div>
+          <a class="card-link" href="enquiry.html?stay=YOIHO%20Dorsett%20Waterfront">View details <span>→</span></a>
+        </div>
+      </article>
+
+      <article class="stay-card" data-type="off" data-price="4200" data-search="balcony studio sunway resort hotel off campus sunway single">
+        <div class="stay-image">
+          <img src="media/content-photo-7.jpg" alt="Balcony Studio at Sunway Resort Hotel">
+          <div class="stay-thumbs" aria-label="More Balcony Studio photos">
+            <img src="media/content-photo-8.jpg" alt="Balcony Studio room view">
+            <img src="media/content-photo-9.jpg" alt="Balcony Studio kitchenette">
+          </div>
+          <span class="stay-label label-terracotta">OFF CAMPUS</span>
+          <button class="save-button" aria-label="Save Balcony Studio at Sunway Resort Hotel" aria-pressed="false">♡</button>
+        </div>
+        <div class="stay-details">
+          <div class="stay-title-row">
+            <h2>Balcony Studio · Sunway Resort</h2>
+            <span class="distance">3.2 km away</span>
+          </div>
+          <p class="stay-location">⌖ Sunway · near Lakeside Campus</p>
+          <div class="stay-tags">
+            <span>482 sq ft · balcony</span>
+            <span>Wi-Fi · housekeeping</span>
+          </div>
+          <div class="stay-price">
+            <div>
+              <small>Published rent / month</small>
+              <b>RM 4,200</b>
+            </div>
+            <span class="availability estimate">Check availability</span>
+          </div>
+          <!-- ?stay=Balcony%20Studio matches the option "Balcony Studio · Sunway Resort" by prefix. -->
+          <a class="card-link" href="enquiry.html?stay=Balcony%20Studio">View details <span>→</span></a>
+        </div>
+      </article>
+    </section>
+
+    <!-- Empty state: hidden by default; app.js shows it when no card matches the filters. -->
+    <div id="empty-state" class="empty-state" hidden>
+      <span>⌕</span>
+      <h2>No stays match those filters</h2>
+      <p>Try a different keyword or increase your maximum rent.</p>
+    </div>
+
+    <aside class="price-note">
+      <span>i</span>
+      <p><b>A note on rent</b> YOIHO prices are examples from individual property listings, not confirmed Taylor’s Residence rates. Prices and availability may change. Confirm directly with each provider before making a decision.</p>
+    </aside>
+
+    <!-- Source links open in a new tab. rel="noreferrer" stops the new page from reaching
+         this one through window.opener and also omits the Referer header. -->
+    <section class="source-line">
+      <p>
+        Information checked 29 October 2026.
+        <a href="https://residence.taylors.edu.my/accommodations/on-campus/u-residence" target="_blank" rel="noreferrer">U Residence</a> ·
+        <a href="https://residence.taylors.edu.my/accommodations/off-campus" target="_blank" rel="noreferrer">Taylor’s off-campus stays</a> ·
+        Photos from the supplied content:
+        <a href="https://residence.taylors.edu.my/accommodations/on-campus/u-residence" target="_blank" rel="noreferrer">U Residence</a>,
+        <a href="https://residence.taylors.edu.my/accommodations/off-campus" target="_blank" rel="noreferrer">YOIHO Dorsett Waterfront</a> and
+        <a href="https://university.taylors.edu.my/en/student-life/support-and-services/accommodation.html" target="_blank" rel="noreferrer">Balcony Studio</a>.
+      </p>
+    </section>
+  </main>
+
+  <!-- Shared footer. -->
+  <footer class="site-footer">
+    <a class="brand" href="index.html"><img class="brand-mark" src="media/nearu-symbol.png" alt="" width="44" height="44" decoding="async">NearU<span class="brand-country">MY</span></a>
+    <p>Student rentals, made easier to compare.</p>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="enquiry.html">Enquiry</a>
+    </div>
+    <small>© 2026 NearU · Images: Unsplash · Confirm details with providers</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
